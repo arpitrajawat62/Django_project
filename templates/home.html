@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Search form -->
+ 
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+      <form action= "{% url 'generate_notes' %}" class="d-flex" role="search" method="post">
+        {% csrf_token %}
+        <input class="form-control me-2" type="url" name="url" placeholder="Paste YouTube video URL here..." style="width: 600px"  />
+        <button class="btn btn-outline-success" type="submit">Generate</button>
+      </form>
+   </div>
+
+{% endblock %}
