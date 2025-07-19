@@ -1,21 +1,17 @@
 from django.contrib import admin
 from .models import Video
-from youtube_transcript_api import YouTubeTranscriptApi
-from urllib.parse import urlparse, parse_qs
-import openai
-
-# Register your models here.
+from .utils import generate_transcript
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('url','processed','created_at','updated_at')
-    actions = ['generate_transcript_and_notes']
+    list_display = ('pk','url','processed','created_at','transcript')
+    readonly_fields = ('transcript',)
+    actions = ['generate_transcript']
 
-    def extract_video_id(self,url):
-        query = urlparse(url)
-        video_id = parse_qs(query.query).get("v")
-        return video_id[0] if video_id else None
-    
-    def generate_transcript(self,request,queryset):
+    def generate_transcript(self, request, queryset):
+        for video in queryset:
+            generate_transcript(video)
+        self.message_user(request, "Transcript generation completed.")
 
-    
-admin.site.register(Video,VideoAdmin)
+    generate_transcript.short_description = "Generate Transcript Only"
+
+admin.site.register(Video, VideoAdmin)

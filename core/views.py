@@ -1,14 +1,14 @@
-from rest_framework import status
 from django.shortcuts import render, redirect
 from .models import Video
-
+from .utils import generate_transcript
 
 
 def generate_notes(request):
     if request.method == 'POST':   
         url = request.POST.get('url')
-        if url:
-         Video.objects.create(url=url)
+        
+        transcript = generate_transcript(url)
+        Video.objects.create(url=url, transcript=transcript)
     return redirect('home')
 
 def register(request):
