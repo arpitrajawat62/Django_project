@@ -3,9 +3,8 @@ from .models import Video
 from .utils import generate_transcript
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('pk','url','processed','created_at','transcript')
-    readonly_fields = ('transcript',)
-    actions = ['generate_transcript']
+    list_display = ('pk','url','processed','created_at')
+    actions = ['generate_notes_from_transcript']
 
     def generate_transcript(self, request, queryset):
         for video in queryset:
