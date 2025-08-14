@@ -15,8 +15,6 @@ def extract_video_id(url):
     if 'youtube.com' in query.netloc:
         video_id = parse_qs(query.query).get("v")
         return video_id[0] if video_id else None
-    elif 'youtu.be' in query.netloc:
-        return query.path.lstrip('/')
     return None
 
 def generate_transcript(video):
